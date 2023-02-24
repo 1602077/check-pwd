@@ -4,16 +4,16 @@ APP_NAME=check-pwd
 
 .PHONY: install
 install: build # install binary to $HOME
-	@go install
+	@go install ./...
 	@echo 'check-pwd binary added to $$GOPATH/bin'
 
 .PHONY: build
 build: clean # build go binary
-	@go build -o ./bin/${APP_NAME} main.go
+	@go build -o ./bin/${APP_NAME} ./main.go
 
 .PHONY: clean
 clean: # clean out legacy bins
-	@go clean -i main.go
+	@go clean -i ./main.go
 
 .PHONY: help
 help: # shows help message
