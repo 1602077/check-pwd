@@ -20,7 +20,9 @@ func Run() error {
 		if err != nil {
 			log.Fatal(err)
 		}
-		os.Exit(0)
+
+		fmt.Println("password is not compromised.")
+		return nil
 	}
 
 	// Check passwords in batch from filepath.
@@ -40,20 +42,24 @@ func Run() error {
 		}
 	}
 
-	log.Printf("%v/%v of your passwords are compromised!", compPwd, len(pwds))
+	fmt.Printf("%v/%v of your passwords are compromised!", compPwd, len(pwds))
 
 	return nil
 }
 
 type flags struct {
+	// passwords either contains a single password or a filepath to a file of \n
+	// delimited passwords in plain text.
 	passwords string
-	file      *bool
+
+	// file flags whether passwords is a filepath.
+	file *bool
 }
 
 func parseFlags() flags {
 	flag.Usage = func() {
 		fmt.Printf("Usage: %s [flags] <passwords>\n", os.Args[0])
-		fmt.Println("Either pass a password directly or use a '\\n' deliminated file:")
+		fmt.Println("Either pass a password directly or use a '\\n' delimited file:")
 		fmt.Println(" - check-pwd password1")
 		fmt.Println(" - check-pwd --file passwords.txt")
 

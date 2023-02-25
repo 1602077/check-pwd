@@ -47,7 +47,7 @@ func NewHash(password string) *PwnedHash {
 func CheckPassword(hash PwnedHash) (bool, error) {
 	resp, err := http.Get(pwnedpasswordsAPI + hash.head)
 	if err != nil {
-		log.Printf("Get request failed|%v", err)
+		log.Printf("get request failed|%v", err)
 		return true, err
 	}
 	defer resp.Body.Close()
@@ -62,14 +62,14 @@ func CheckPassword(hash PwnedHash) (bool, error) {
 	for _, v := range strings.Split(body.String(), "\r\n") {
 		a := strings.Split(v, ":")
 		if len(a) != 2 {
-			log.Printf("Failed to parse response line %v|Got <2 args", v)
+			log.Printf("failed to parse response line %v|Got <2 args", v)
 			continue
 		}
 		results[a[0]] = a[1]
 	}
 
 	if v, ok := results[hash.tail]; ok {
-		fmt.Printf("Password %q is compromised. Found in %v breaches.\n", hash.unhashed, v)
+		fmt.Printf("password %q is compromised. Found in %v breaches.\n", hash.unhashed, v)
 		return true, nil
 	}
 
